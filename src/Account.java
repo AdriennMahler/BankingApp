@@ -14,13 +14,16 @@ public class Account extends JFrame implements ActionListener {
     private int loginName;
     private String passwort;
     private int accountNumber;
+    boolean geschlecht= true;
 
     private JMenu menu;
     private JButton buttons;
     private JTextArea tfOutput;
-    public Account(double balance){
+    public Account(double balance, String nachname, boolean geschlecht){
         super("Deposit");
         this.balance=balance;
+        this.nachname=nachname;
+        this.geschlecht=geschlecht;
 
         this.setSize(600, 600);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -28,26 +31,34 @@ public class Account extends JFrame implements ActionListener {
        // menu= new JMenu();
         Container cp = getContentPane();
         cp.setLayout(new FlowLayout());
-        JPanel panel = new JPanel(new GridLayout(2,2));
+        JPanel panel = new JPanel(new GridLayout(1,2));
         JPanel panel2=new JPanel(new GridLayout(1,1));
+        JPanel panel3=new JPanel(new GridLayout(1,1));
       //  JMenu menu=new JMenu();
         cp.add(panel);
         cp.add(panel2);
+        cp.add((panel3));
        // cp.add(menu);
 
         JButton loginBtn= new JButton("Login");
         JButton button = new JButton("Kontostand");
+        JTextArea gruss=new JTextArea();
+        gruss.setText("Guten Morgen " + (geschlecht? "Frau ":"Herr ")+ this.nachname);
 
-        panel.add(button);
         panel.add(loginBtn);
-
+        panel.add(button);
 
         tfOutput = new JTextArea();
-        panel2.add(tfOutput);
+        panel2.add(gruss);
+        panel3.add(tfOutput);
 
 
         button.addActionListener(this);
-        button.setFont(new Font("Arial", Font.BOLD, 25));
+        button.setFont(new Font("Arial", Font.BOLD, 18));
+        loginBtn.setFont(new Font("Arial", Font.BOLD, 18));
+        gruss.setFont(new Font("Arial", Font.BOLD, 20));
+        tfOutput.setFont(new Font("Helvetica",Font.PLAIN, 20));
+
        // button.setBounds(100,50,100,50);
        // button.setLocation(10,10);
 
@@ -131,7 +142,7 @@ public class Account extends JFrame implements ActionListener {
             summeMitIndexOfDatum = (double) summe.get(datumIndex);
             DateTimeFormatter dtf = DateTimeFormatter.ofPattern("d. MMMM yyyy");
             String tag= date.get(datumIndex).format(dtf);
-            tfOutput.append(String.format("Ihre Kontostand war %.2f Euro an Tag: %-10s %n ",(this.balance+ summeMitIndexOfDatum) ,(tag)));
+            tfOutput.append(String.format("Ihre Kontostand war %.2f Euro an Tag: %-10s %n",(this.balance+ summeMitIndexOfDatum) ,(tag)));
         }
 
 
